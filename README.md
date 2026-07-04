@@ -163,3 +163,96 @@ Toutes les requêtes de données retournent une structure JSON standardisée :
 ### 📊 Tableau de Bord (Privé - JWT Requis)
 *   `GET /api/dashboard` : Synthèse globale rapide.
 *   `GET /api/dashboard/statistics` : Métriques détaillées, répartition par catégories et historique mensuel.
+
+
+🎨 Expense Tracker Frontend - React & Tailwind CSS
+Ce projet est le front-end professionnel de l'application de gestion des dépenses personnelles (Expense Tracker). Développé pour être rapide, moderne et ergonomique, il offre une expérience utilisateur fluide pour la gestion du budget et des transactions.
+
+🚀 Fonctionnalités Clés
+Dashboard Interactif : Visualisation claire des dépenses via des graphiques dynamiques.
+
+Gestion Intelligente du Budget : Suivi en temps réel du solde restant avec alertes visuelles en cas de dépassement.
+
+CRUD Complet : Ajout, modification et suppression simplifiés des dépenses et des catégories.
+
+Filtres Avancés : Recherche ciblée par date, montant ou catégorie pour une analyse précise.
+
+Design Responsive : Interface adaptative optimisée pour PC, tablettes et smartphones.
+
+Sécurité Renforcée : Gestion des sessions via JWT et protection des routes privées.
+
+🛠️ Stack Technique
+Framework : React 18
+
+Langage : JavaScript / TypeScript
+
+Styling : Tailwind CSS
+
+Visualisation : Chart.js / Recharts
+
+Gestion d'état : React Query / Context API
+
+Requêtes API : Axios
+
+Icônes : Lucide React
+
+📁 Architecture du Projet
+Plaintext
+src/
+├── api/                # Configuration Axios et services API
+├── components/         # Composants réutilisables (UI)
+├── context/            # Gestion d'état global (AuthContext)
+├── hooks/              # Custom Hooks pour la logique de données
+├── pages/              # Pages de l'application (Dashboard, Login, Expenses...)
+├── routes/             # Gestion des routes privées et protection
+├── utils/              # Fonctions utilitaires (formatage date, devise)
+└── assets/             # Ressources statiques (images, icônes)
+🚀 Installation et Lancement
+Prérequis
+Node.js (version 18 ou supérieure) installé.
+
+NPM ou Yarn.
+
+Étapes
+Cloner le dépôt :
+
+Bash
+git clone [LIEN_DU_PROJET]
+cd frontend
+Installer les dépendances :
+
+Bash
+npm install
+Configuration :
+Créez un fichier .env à la racine et configurez l'URL de l'API :
+
+Extrait de code
+REACT_APP_API_URL=http://localhost:8080/api
+Lancer l'application :
+
+Bash
+npm start
+L'application sera accessible sur http://localhost:3000.
+
+🔐 Système d'Authentification
+Le token JWT est stocké de manière sécurisée dans le localStorage.
+
+Un Axios Interceptor est configuré pour injecter automatiquement le token dans chaque requête API :
+
+JavaScript
+Authorization: Bearer <votre_token>
+📊 Interfaces Principales
+Authentification : Pages de connexion et d'inscription sécurisées.
+
+Dashboard : Vue d'ensemble financière avec statistiques.
+
+Gestion des Dépenses : Tableau dynamique avec outils de filtrage.
+
+Paramètres Budget : Configuration des objectifs financiers mensuels.
+
+Catégories : Gestion personnalisée des catégories de dépenses.
+
+💡 Conseils pour le développement
+Assurez-vous que le Backend est bien démarré sur le port 8080 avant de lancer le Frontend.
+
+Vous pouvez modifier facilement le thème et les couleurs via le fichier tailwind.config.js.
