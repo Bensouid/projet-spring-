@@ -162,3 +162,161 @@ Toutes les requêtes de données retournent une structure JSON standardisée :
 ### 📊 Tableau de Bord (Privé - JWT Requis)
 *   `GET /api/dashboard` : Synthèse globale rapide.
 *   `GET /api/dashboard/statistics` : Métriques détaillées, répartition par catégories et historique mensuel.
+
+# 💰 Expense Tracker Frontend — React
+
+Ce projet est l'interface utilisateur (frontend) de l'application **Expense Tracker**, développée en **React**. Elle consomme l'API REST du [backend Spring Boot](../backend) pour offrir une expérience complète de gestion des dépenses personnelles : authentification, catégories, dépenses, budgets mensuels et tableau de bord statistique.
+
+---
+
+## 🚀 Fonctionnalités clés
+
+### 🔒 Authentification
+* Pages d'inscription et de connexion.
+* Stockage sécurisé du token **JWT** côté client (mémoire / stockage sécurisé).
+* Routes protégées : redirection automatique vers la page de connexion si le token est absent ou expiré.
+* Déconnexion avec invalidation locale de la session.
+
+### 📁 Gestion des catégories
+* Liste des catégories avec icônes et couleurs personnalisées.
+* Création, modification et suppression de catégories.
+* Message d'erreur clair si une suppression est bloquée (catégorie liée à des dépenses).
+
+### 💸 Gestion des dépenses
+* Liste des dépenses avec pagination.
+* Formulaire d'ajout / modification (`title`, `description`, `amount`, `expenseDate`, catégorie).
+* Filtres combinables : par catégorie, par période, par montant min/max.
+* Suppression avec confirmation.
+
+### 📊 Budgets mensuels
+* Configuration du budget par mois / année.
+* Affichage du montant dépensé, du solde restant et du pourcentage de consommation (barre de progression).
+* Bannière d'alerte visuelle si le budget est dépassé.
+
+### 📈 Dashboard & statistiques
+* Vue de synthèse : total des dépenses, nombre de transactions, total du mois en cours.
+* Graphique de répartition des dépenses par catégorie.
+* Top 5 des catégories les plus dépensières.
+* Graphique d'évolution mensuelle (tendance des 6 derniers mois).
+
+---
+
+## 🛠️ Stack technique
+
+| Domaine | Technologie |
+|---|---|
+| Librairie UI | React 18 + TypeScript |
+| Build tool | Vite |
+| Routing | React Router (routes centralisées dans `AppRoutes.tsx`) |
+| Requêtes HTTP | Services dédiés (dossier `services/`) |
+| Gestion d'état | Context API |
+| Typage | TypeScript (`types.ts`) |
+| Style | CSS (`index.css`) |
+| Gestionnaire de paquets | npm |
+
+---
+
+## 📁 Structure du projet
+
+```text
+frontend/
+│
+├── assets/                      # Images, icônes, ressources statiques
+├── node_modules/
+├── src/
+│   ├── components/              # Composants réutilisables (boutons, cartes, formulaires, etc.)
+│   ├── context/                 # Contextes React (authentification, thème, etc.)
+│   ├── layout/                  # Structure générale de l'application
+│   │   ├── MainLayout.tsx       # Layout principal englobant Navbar + Sidebar + contenu
+│   │   ├── Navbar.tsx           # Barre de navigation supérieure
+│   │   └── Sidebar.tsx          # Menu latéral de navigation
+│   ├── pages/                   # Pages principales de l'application
+│   │   ├── Connexion.tsx        # Page de connexion
+│   │   ├── Inscription.tsx      # Page d'inscription
+│   │   ├── TableauDeBord.tsx    # Dashboard / vue de synthèse
+│   │   ├── Categories.tsx       # Gestion des catégories
+│   │   ├── Depenses.tsx         # Gestion des dépenses
+│   │   ├── Budget.tsx           # Configuration et suivi du budget mensuel
+│   │   ├── Statistiques.tsx     # Statistiques détaillées
+│   │   └── Profil.tsx           # Profil utilisateur
+│   ├── routes/
+│   │   └── AppRoutes.tsx        # Définition centralisée des routes (publiques / protégées)
+│   ├── services/                # Appels vers l'API backend (auth, categories, expenses, budget...)
+│   ├── App.tsx                  # Composant racine
+│   ├── main.tsx                 # Point d'entrée de l'application
+│   ├── index.css                # Styles globaux
+│   └── types.ts                 # Types et interfaces TypeScript partagés
+├── .env.example                 # Exemple de variables d'environnement
+├── .gitignore
+├── index.html                   # Point d'entrée HTML (Vite)
+├── metadata.json
+├── package.json
+└── package-lock.json
+```
+
+---
+
+## ⚙️ Configuration
+
+Créez un fichier `.env` à la racine du projet en vous basant sur `.env.example` :
+
+```env
+VITE_API_BASE_URL=http://localhost:8080/api
+```
+
+> L'URL doit correspondre à celle du backend Spring Boot (voir le README du backend).
+
+---
+
+## 🐳 Comment lancer le projet ?
+
+### Prérequis
+* **Node.js** (version 18 ou supérieure)
+* **npm** ou **yarn**
+* Le [backend](../backend) doit être démarré et accessible (par défaut sur le port `8080`)
+
+### Installation et démarrage
+
+1. Installez les dépendances :
+   ```bash
+   npm install
+   ```
+2. Configurez le fichier `.env` (voir section **Configuration**).
+3. Lancez le serveur de développement :
+   ```bash
+   npm run dev
+   ```
+4. L'application sera accessible sur : `http://localhost:5173`
+
+### Build de production
+
+```bash
+npm run build
+```
+
+Les fichiers optimisés seront générés dans le dossier `dist/`.
+
+---
+
+## 🔑 Authentification côté client
+
+1. L'utilisateur se connecte via la page **Connexion**, qui appelle `/api/auth/login` par l'intermédiaire du service d'authentification (`services/`).
+2. Le token JWT reçu est stocké côté client et ajouté automatiquement dans l'en-tête `Authorization: Bearer <token>` de chaque requête vers le backend.
+3. Le contexte d'authentification (`context/`) gère l'état de session et protège les routes privées définies dans `AppRoutes.tsx` ; toute réponse `401 Unauthorized` redirige l'utilisateur vers la page **Connexion**.
+
+---
+
+## 📌 Pages principales
+
+| Page | Fichier | Description | Accès |
+|---|---|---|---|
+| Connexion | `pages/Connexion.tsx` | Connexion utilisateur | Public |
+| Inscription | `pages/Inscription.tsx` | Création de compte | Public |
+| Tableau de bord | `pages/TableauDeBord.tsx` | Vue de synthèse et statistiques rapides | Privé |
+| Catégories | `pages/Categories.tsx` | Gestion des catégories | Privé |
+| Dépenses | `pages/Depenses.tsx` | Liste, création et filtres des dépenses | Privé |
+| Budget | `pages/Budget.tsx` | Configuration et suivi du budget mensuel | Privé |
+| Statistiques | `pages/Statistiques.tsx` | Statistiques détaillées et graphiques | Privé |
+| Profil | `pages/Profil.tsx` | Informations et paramètres du compte utilisateur | Privé |
+
+La navigation entre les pages privées se fait via le layout commun `MainLayout.tsx`, qui inclut la `Navbar` (en-tête) et la `Sidebar` (menu latéral).
